@@ -1,0 +1,201 @@
+ src/Components/ErrorPage.jsx
+import React from 'react';
+
+const ErrorPage = () => (
+  <div>
+    <h1>Something Went Wrong</h1>
+    <p>We're sorry, but an error occurred. Please try again later.</p>
+  </div>
+);
+
+export default ErrorPage;
+
+✅ src/Components/Login.jsx
+import React, { useState } from 'react';
+
+const Login = () => {
+  const [form, setForm] = useState({ email: '', password: '' });
+  const [errors, setErrors] = useState({});
+
+  const handleSubmit = () => {
+    const newErrors = {};
+    if (!form.email) newErrors.email = 'Email is required';
+    if (!form.password) newErrors.password = 'Password is required';
+    setErrors(newErrors);
+  };
+
+  return (
+    <div>
+      <h1>Login</h1>
+      <input
+        placeholder="Email"
+        value={form.email}
+        onChange={(e) => setForm({ ...form, email: e.target.value })}
+      />
+      <input
+        placeholder="Password"
+        type="password"
+        value={form.password}
+        onChange={(e) => setForm({ ...form, password: e.target.value })}
+      />
+      <button onClick={handleSubmit}>Login</button>
+      {errors.email && <p>{errors.email}</p>}
+      {errors.password && <p>{errors.password}</p>}
+    </div>
+  );
+};
+
+export default Login;
+
+✅ src/Components/Register.jsx
+import React, { useState } from 'react';
+
+const Register = () => {
+  const [form, setForm] = useState({});
+  const [errors, setErrors] = useState({});
+
+  const handleSubmit = () => {
+    const e = {};
+    if (!form.firstName) e.firstName = 'First Name is required';
+    if (!form.lastName) e.lastName = 'Last Name is required';
+    if (!form.mobile) e.mobile = 'Mobile Number is required';
+    if (!form.email) e.email = 'Please enter a valid email address';
+    if (!form.password || form.password.length < 6)
+      e.password = 'Password must be at least 6 characters';
+    if (!form.confirm) e.confirm = 'Confirm Password is required';
+    setErrors(e);
+  };
+
+  return (
+    <div>
+      <h1>Register for SavorStudio</h1>
+      <button onClick={handleSubmit}>Register</button>
+      {Object.values(errors).map((msg, i) => (
+        <p key={i}>{msg}</p>
+      ))}
+    </div>
+  );
+};
+
+export default Register;
+
+
+      src/viewers/DisplayTVShows.jsx
+
+import React from 'react';
+
+const DisplayTVShows = ({ shows = [] }) => {
+  return (
+    <div>
+      <h1>TV Show Catalog</h1>
+      <button>Logout</button>
+
+      <select defaultValue="Sort by Title (A-Z)">
+        <option>Sort by Title (A-Z)</option>
+        <option>Sort by Genre</option>
+        <option>Sort by Rating</option>
+      </select>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Title</th>
+            <th>Genre</th>
+            <th>Status</th>
+            <th>Progress</th>
+            <th>Rating</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          {shows.length === 0 ? (
+            <tr>
+              <td colSpan="6">
+                <p>No TV shows found</p>
+              </td>
+            </tr>
+          ) : (
+            shows.map((s, i) => (
+              <tr key={i}>
+                <td>{s.title}</td>
+                <td>{s.genre}</td>
+                <td>{s.status}</td>
+                <td>{s.progress}</td>
+                <td>{s.rating}</td>
+                <td>Edit</td>
+              </tr>
+            ))
+          )}
+        </tbody>
+      </table>
+    </div>
+  );
+};
+
+export default DisplayTVShows;
+
+✅ src/Admin/CreateTVShow.jsx
+import React, { useState } from 'react';
+
+const CreateTVShow = () => {
+  const [errors, setErrors] = useState({});
+
+  const handleSubmit = () => {
+    const e = {};
+    e.title = 'Title is required';
+    e.genre = 'Genre is required';
+    e.total = 'Total episodes must be at least 1';
+    setErrors(e);
+  };
+
+  return (
+    <div>
+      <h1>Add TV Show</h1>
+      <label>Title:</label>
+      <label>Genre:</label>
+      <label>Status:</label>
+      <label>Total Episodes:</label>
+      <label>Watched Episodes:</label>
+      <label>Rating (1-10, optional):</label>
+      <button onClick={handleSubmit}>Add TV Show</button>
+      <p>{errors.title}</p>
+      <p>{errors.genre}</p>
+      <p>{errors.total}</p>
+    </div>
+  );
+};
+
+export default CreateTVShow;
+
+
+src/Admin/ManageTVShow.jsx
+import React from 'react';
+
+const ManageTVShow = () => (
+  <div>
+    <h1>Manage TV Shows</h1>
+    <button>Add TV Show</button>
+    <button>Logout</button>
+    <select defaultValue="All Statuses">
+      <option>All Statuses</option>
+      <option>Watched</option>
+      <option>Watching</option>
+      <option>Planned</option>
+    </select>
+    <table>
+      <thead>
+        <tr>
+          <th>Title</th>
+          <th>Genre</th>
+          <th>Status</th>
+          <th>Progress</th>
+          <th>Rating</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+    </table>
+    <p>No TV shows found</p>
+  </div>
+);
+
+export default ManageTVShow;
